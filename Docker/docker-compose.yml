@@ -1,0 +1,83 @@
+version: '3'
+
+services:
+    web-haproxy:
+        image: eeacms/haproxy:1.8-1.4
+        depends_on:
+            - webapp
+        ports:
+            - "80:5000"
+            - "1936:1936"
+        environment:
+            BACKENDS: "webapp"
+            DNS_ENABLED: "true"
+            LOG_LEVEL: "info"
+            STATS_AUTH: "admin:2466"
+        networks:
+            - webapp-network
+            - fontend-network
+    webapp:
+        image: nginx:1.17.6
+        networks:
+            - webapp-network
+    api-haproxy:
+        image: eeacms/haproxy:1.8-1.4
+        depends_on:
+            - webapi
+        ports:
+            - "8080:5000"
+            - "1937:1936"
+        environment:
+            BACKENDS: "webapi"
+            DNS_ENABLED: "true"
+            LOG_LEVEL: "info"
+            STATS_AUTH: "admin:2466"
+        networks:
+            - webapi-network
+            - fontend-network
+    webapi:
+        image: admiral-api
+        restart: always
+        networks:
+            - webapi-network
+    api-redis:
+        image: redis:5
+        restart: always
+        ports: 
+            - 6379:6379
+        volumes:
+            - redis-data:/data
+        networks:
+            - api-network
+    mysql-db:
+        restart: always
+        image: mysql:5.7
+        ports:
+            - 3306:3306
+        volumes:
+            - db-data:/var/lib/mysql
+            #- ./init.sql:/data/application/init.sql
+            - ./init.sql:/docker-entrypoint-initdb.d/setup.sql
+        networks:
+            - backend-network
+        environment: 
+            MYSQL_ROOT_PASSWORD: december2466
+            MYSQL_DATABASE: abhakara-admiral
+        command: --init-file /data/application/init.sql
+volumes:
+    db-data:
+      driver: local
+    web-data:
+      driver: local
+    redis-data:
+        driver: local
+    api-data:
+      driver: local
+  
+networks:
+    fontend-network:
+      driver: bridge
+    webapp-network:
+      driver: bridge
+    webapi-network:
+      driver: bridge
