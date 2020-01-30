@@ -6,14 +6,22 @@ Service | Description
 admiral-app | Manage user and system
 admiral-api | API user and system
 
+## Require
+* java
+* maven
+* docker
+
 ## Admiral-app
 
-### Buile package
-`cd admiral-app`
+### Build package
+```javascript
+cd admiral-app
 
-`mvn package`
+mvn package
+```
 
 ## Admiral-api
+API mange user and system.
 
 ### Compile
 ```javascript
@@ -22,11 +30,17 @@ cd admiral-api
 mvn package
 ```
 
-### Buile docker
-`docker build -t admiral-api admiral-api/.` 
+### Build docker
+```javascript
+cd admiral-api
+
+docker build -t admiral-api .
+```
 
 ### Run docker
-`docker run --name api -d admiral-api`
+```javascript
+docker run --name api -d admiral-api
+```
 
 ## Task list
 - [ ] Task 1
