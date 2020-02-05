@@ -1,12 +1,16 @@
 package com.abhakara.admiralapi.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
@@ -67,17 +71,24 @@ public class User implements Serializable {
     @JsonProperty("enabled")
     @Column(columnDefinition = "boolean default true")
     private String enabled;
+    private boolean tokenExpired;
+ 
+    @ManyToMany
+    @JoinTable( 
+        name = "users_roles", 
+        joinColumns = @JoinColumn(
+          name = "user_id", referencedColumnName = "id"), 
+        inverseJoinColumns = @JoinColumn(
+          name = "role_id", referencedColumnName = "id")) 
+    private Collection<Role> roles;
 
-    
     @JsonIgnore
-    public String getPassword() {
-        return password;
+    public String getPassword(){
+        return this.password;
     }
 
-    @JsonProperty("password")
+    @JsonProperty
     public void setPassword(String password) {
-        BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
-        this.password = bcrypt.encode(password);
-        //this.password = password;
+        this.password = password;
     }
 }
