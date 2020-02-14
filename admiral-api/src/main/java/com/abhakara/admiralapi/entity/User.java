@@ -19,9 +19,8 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -71,6 +70,7 @@ public class User implements Serializable {
     @JsonProperty("enabled")
     @Column(columnDefinition = "boolean default true")
     private String enabled;
+    @JsonProperty("tokenExpired")
     private boolean tokenExpired;
  
     @ManyToMany
@@ -87,7 +87,8 @@ public class User implements Serializable {
         return this.password;
     }
 
-    @JsonProperty
+    //@JsonProperty
+    @JsonProperty(access = Access.WRITE_ONLY, value = "password")
     public void setPassword(String password) {
         this.password = password;
     }

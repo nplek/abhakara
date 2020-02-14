@@ -6,6 +6,7 @@ CREATe TABLE IF NOT EXISTS users (
   email VARCHAR(50) NOT NULL,
   password VARCHAR(100) NOT NULL,
   enabled TINYINT NOT NULL DEFAULT 1,
+  tokenExpired TINYINT NOT NULL DEFAULT 0,
   UNIQUE KEY unique_email (email),
   PRIMARY KEY (id)
 );
