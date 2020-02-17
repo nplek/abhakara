@@ -19,19 +19,19 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Builder(builderClassName = "PrivilegeBuilder", toBuilder = true)
-@JsonDeserialize(builder = Privilege.PrivilegeBuilder.class)
+@Builder(builderClassName = "OrganizationBuilder", toBuilder = true)
+@JsonDeserialize(builder = Organization.OrganizationBuilder.class)
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="privileges")
-public class Privilege implements Serializable {
+@Table(name="organizations")
+public class Organization implements Serializable {
   
     /**
      *
      */
-    private static final long serialVersionUID = -4840002940878030665L;
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -35,7 +35,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(of={"email"})
-@Table(name="users",  uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})})
+@Table(name="users")
 public class User implements Serializable {
     
     /**
@@ -49,8 +49,8 @@ public class User implements Serializable {
 
     @JsonProperty("name")
     @NotNull(message = "{user.name.notNull}")
-    @Size(min=3,max=50, message = "{user.name.size}")
-    @Column(length = 50, nullable = false)
+    @Size(min=3,max=100, message = "{user.name.size}")
+    @Column(length = 100, nullable = false)
     private String name;
 
     //@JsonProperty(access = Access.WRITE_ONLY)
@@ -64,14 +64,18 @@ public class User implements Serializable {
     @NotNull(message = "{user.email.notNull}")
     @Email(message = "{user.email.format")
     @Size(max=50, message = "{user.email.size}")
-    @Column(columnDefinition = "varchar(50) NOT NULL")
+    @Column(columnDefinition = "varchar(50) NOT NULL", unique = true)
     private String email;
     
     @JsonProperty("enabled")
     @Column(columnDefinition = "boolean default true")
-    private String enabled;
+    private boolean enabled;
     @JsonProperty("tokenExpired")
+    @Column(columnDefinition = "boolean default true")
     private boolean tokenExpired;
+    @JsonProperty("locked")
+    @Column(columnDefinition = "boolean default false")
+    private boolean locked;
  
     @ManyToMany
     @JoinTable( 
@@ -87,7 +91,6 @@ public class User implements Serializable {
         return this.password;
     }
 
-    //@JsonProperty
     @JsonProperty(access = Access.WRITE_ONLY, value = "password")
     public void setPassword(String password) {
         this.password = password;

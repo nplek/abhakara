@@ -9,9 +9,9 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface UserRepository extends PagingAndSortingRepository<User, Integer> {
-    @Query(value ="SELECT t.id, t.name, t.password, t.email, t.enabled FROM users t where t.email LIKE lower(CONCAT('%', :email, '%'))", nativeQuery = true)
+    @Query(value ="SELECT t.* FROM users t where t.email LIKE lower(CONCAT('%', :email, '%'))", nativeQuery = true)
     List<User> findByEmail(@Param("email") String email);
 
-    //@Query(value = "SELECT t.id, t.name, t.password, t.email, t.enabled FROM users t WHERE t.name LIKE lower(CONCAT('%',:name,'%))'", nativeQuery = true)
-    //Optional<User> findByName(@Param("name") String name);
+    @Query(value = "SELECT t.* FROM users t WHERE t.name = :name", nativeQuery = true)
+    User findByName(@Param("name") String name);
 }
