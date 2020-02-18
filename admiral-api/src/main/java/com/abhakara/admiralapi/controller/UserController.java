@@ -3,7 +3,7 @@ package com.abhakara.admiralapi.controller;
 import java.util.List;
 import java.util.Optional;
 
-import com.abhakara.admiralapi.entity.User;
+import com.abhakara.admiralapi.entity.ABKUser;
 import com.abhakara.admiralapi.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class UserController {
 
     @GetMapping("/users/{id}")
     public ResponseEntity<?> getUserById(@PathVariable int id) {
-        Optional<User> user = userService.getUserById(id);
+        Optional<ABKUser> user = userService.getUserById(id);
         if (!user.isPresent()) {
             return ResponseEntity.notFound().build();
         }
@@ -39,28 +39,28 @@ public class UserController {
     }
 
     @GetMapping("/users/email/{email}")
-    public ResponseEntity<List<User>> getUserByEmail(@PathVariable String email) {
+    public ResponseEntity<List<ABKUser>> getUserByEmail(@PathVariable String email) {
         log.info("get user by email");
-        return new ResponseEntity<List<User>>(userService.getUserByEmail(email), HttpStatus.OK);
+        return new ResponseEntity<List<ABKUser>>(userService.getUserByEmail(email), HttpStatus.OK);
     }
 
     @GetMapping("users/pages")
-    public ResponseEntity<Page<User>> getPages(@RequestParam(name = "offset", defaultValue = "0") int offset,
+    public ResponseEntity<Page<ABKUser>> getPages(@RequestParam(name = "offset", defaultValue = "0") int offset,
     @RequestParam(name = "limit", defaultValue = "5") int limit){
         log.info("get users");
-        return new ResponseEntity<Page<User>>(userService.getPages(offset, limit), HttpStatus.OK);
+        return new ResponseEntity<Page<ABKUser>>(userService.getPages(offset, limit), HttpStatus.OK);
     }
 
     @PostMapping(value="/users",consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> addUser(@RequestBody User user) {
+    public ResponseEntity<?> addUser(@RequestBody ABKUser user) {
         log.info("add user: " + user);
-        User usr = userService.addUser(user);
+        ABKUser usr = userService.addUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(usr);
     }
 
     @PutMapping(value="/users/{id}")
-    public ResponseEntity<?> updateUser(@PathVariable int id, @RequestBody User user) {
-        Optional<User> usr = userService.updateUser(id, user);
+    public ResponseEntity<?> updateUser(@PathVariable int id, @RequestBody ABKUser user) {
+        Optional<ABKUser> usr = userService.updateUser(id, user);
         if (!usr.isPresent()) {
             return ResponseEntity.notFound().build();
         }

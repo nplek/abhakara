@@ -12,7 +12,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -28,15 +27,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Builder(builderClassName = "UserBuilder", toBuilder = true)
-@JsonDeserialize(builder = User.UserBuilder.class)
+@Builder(builderClassName = "ABKUserBuilder", toBuilder = true)
+@JsonDeserialize(builder = ABKUser.ABKUserBuilder.class)
 @Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(of={"email"})
 @Table(name="users")
-public class User implements Serializable {
+public class ABKUser implements Serializable {
     
     /**
      *

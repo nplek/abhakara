@@ -7,7 +7,7 @@ import com.abhakara.admiralapi.entity.Company;
 import com.abhakara.admiralapi.entity.Organization;
 import com.abhakara.admiralapi.entity.Privilege;
 import com.abhakara.admiralapi.entity.Role;
-import com.abhakara.admiralapi.entity.User;
+import com.abhakara.admiralapi.entity.ABKUser;
 import com.abhakara.admiralapi.repository.CompanyRepository;
 import com.abhakara.admiralapi.repository.OrganizationRepository;
 import com.abhakara.admiralapi.repository.PrivilegeRepository;
@@ -67,10 +67,16 @@ public class DbInitializer implements CommandLineRunner {
         Privilege prv1 = Privilege.builder().name("READ_PRIVILEGE").build();
         Privilege prv2 = Privilege.builder().name("WRITE_PRIVILEGE").build();
         Privilege prv3 = Privilege.builder().name("DELETE_PRIVILEGE").build();
+        Privilege prv21 = Privilege.builder().name("FOO_READ_PRIVILEGE").build();
+        Privilege prv22 = Privilege.builder().name("FOO_WRITE_PRIVILEGE").build();
+        Privilege prv23 = Privilege.builder().name("FOO_DELETE_PRIVILEGE").build();
         
         this.privilegeRepository.save(prv1);
         this.privilegeRepository.save(prv2);
         this.privilegeRepository.save(prv3);
+        this.privilegeRepository.save(prv21);
+        this.privilegeRepository.save(prv22);
+        this.privilegeRepository.save(prv23);
 
         Collection<Privilege> prvList1 = new ArrayList<Privilege>();
         prvList1.add(prv1);
@@ -102,13 +108,13 @@ public class DbInitializer implements CommandLineRunner {
         Collection<Role> roleList2 = new ArrayList<Role>();
         roleList2.add(role2);
 
-        User usr1 = User.builder().name("admin").email("admin@email.com")
+        ABKUser usr1 = ABKUser.builder().name("admin").email("admin@email.com")
             .password("$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqRzgVymGe07xd00DMxs.AQubh4a")
             .roles(roleList1).enabled(true).locked(false).tokenExpired(true).build();
 
         this.userRepository.save(usr1);
 
-        User usr2 = User.builder().name("user").email("user@email.com")
+        ABKUser usr2 = ABKUser.builder().name("user").email("user@email.com")
             .password("$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqRzgVymGe07xd00DMxs.AQubh4a")
             .roles(roleList2).enabled(true).locked(false).tokenExpired(true).build();
 

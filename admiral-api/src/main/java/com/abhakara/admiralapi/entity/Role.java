@@ -50,8 +50,8 @@ public class Role implements Serializable {
     @Column(length = 100, nullable = false, unique = true)
     private String code;
 
-    @ManyToMany(mappedBy = "roles")
-    private Collection<User> users;
+    /*@ManyToMany(mappedBy = "roles")
+    private Collection<ABKUser> users;*/
  
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

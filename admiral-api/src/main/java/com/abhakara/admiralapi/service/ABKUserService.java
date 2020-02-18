@@ -1,7 +1,7 @@
 package com.abhakara.admiralapi.service;
 
-import com.abhakara.admiralapi.entity.User;
-import com.abhakara.admiralapi.entity.UserPrinciple;
+import com.abhakara.admiralapi.entity.ABKUser;
+import com.abhakara.admiralapi.entity.UserPrincipal;
 import com.abhakara.admiralapi.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +18,10 @@ public class ABKUserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        User user = userRepository.findByName(username);
+        ABKUser user = userRepository.findByName(username);
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }
-        return new UserPrinciple(user);
+        return new UserPrincipal(user);
     }
 }

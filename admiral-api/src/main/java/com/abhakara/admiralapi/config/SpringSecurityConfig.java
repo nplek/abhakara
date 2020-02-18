@@ -24,24 +24,22 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication()
+        /*auth.jdbcAuthentication()
         .dataSource(dataSource)
         .usersByUsernameQuery("select email,password,enabled "
-            + "from dev_users "
+            + "from users "
             + "where email = ?")
         .authoritiesByUsernameQuery("select email,authority "
             + "from authorities "
-            + "where email = ?");
+            + "where email = ?");*/
+            auth.jdbcAuthentication()
+            .dataSource(dataSource)
+            .usersByUsernameQuery("select email,password,enabled "
+                + "from users "
+                + "where email = ?")
+            .passwordEncoder(passwordEncoder())
+            .authoritiesByUsernameQuery("select u.email, r.name from users u left join users_roles ur on ur.user_id = u.id left join roles r on ur.role_id = r.id where u.email = ?");
     }
-
-    /*@Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-
-        auth.inMemoryAuthentication()
-                .withUser("user").password("{noop}1111").roles("USER")
-                .and()
-                .withUser("admin").password("{noop}password").roles("USER", "ADMIN");
-    }*/
 
     // Secure the endpoins with HTTP Basic authentication
     @Override
@@ -52,20 +50,12 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/person/**").authenticated()
-                .antMatchers(HttpMethod.POST, "/person").hasAuthority("read")
-                .antMatchers(HttpMethod.PUT, "/persons/**").hasAnyRole("USER","ADMIN")
-                .antMatchers(HttpMethod.PATCH, "/persons/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/persons/**").hasRole("ADMIN")
-                /*.antMatchers(HttpMethod.GET, "/user/**").hasRole("ADMIRAL")
-                .antMatchers(HttpMethod.POST, "/user/**").hasRole("ADMIRAL")
-                .antMatchers(HttpMethod.PUT, "/user/**").hasRole("ADMIRAL")
-                .antMatchers(HttpMethod.PATCH, "/user/**").hasRole("ADMIRAL")
-                .antMatchers(HttpMethod.DELETE, "/user/**").hasRole("ADMIRAL")*/
-                .antMatchers(HttpMethod.GET, "/cosmetic/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST, "/cosmetic/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PUT, "/cosmetic/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/cosmetic/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET,"/foos/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/user/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/user/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/user/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PATCH, "/user/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/user/**").hasRole("ADMIN")
                 .and()
                 .csrf().disable()
                 .formLogin().disable();
