@@ -23,25 +23,25 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
     @Override
     public boolean hasPermission(Authentication authentication, Serializable targetId, String targetType,
             Object permission) {
-        System.out.println("---> hasPermission " + targetType + "<---");
-        System.out.println("---> hasPermission " + authentication.getName() + "<---");
+        System.out.println("---> hasPermission targetType:" + targetType + "<---");
+        System.out.println("---> hasPermission username:" + authentication.getName() + "<---");
         if ((authentication == null) || (targetType == null) || !(permission instanceof String)) {
             return false;
         }
-        return hasPrivilege(authentication, targetType.toUpperCase(), 
-            permission.toString().toUpperCase());
+        return hasPrivilege(authentication, targetType.toUpperCase(), permission.toString().toUpperCase());
     }
 
     private boolean hasPrivilege(Authentication auth, String targetType, String permission) {
-        System.out.println("---> hasPrivilege " + permission + "<---");
+        System.out.println("---> hasPrivilege targetType:" +targetType +" permission:" + permission + "<---");
         for (GrantedAuthority grantedAuth : auth.getAuthorities()) {
-            System.out.println(grantedAuth.getAuthority());
             if (grantedAuth.getAuthority().startsWith(targetType)) {
                 if (grantedAuth.getAuthority().contains(permission)) {
+                    System.out.println("---> Privilege :" + grantedAuth.getAuthority() +" <---");
                     return true;
                 }
             }
         }
+        System.out.println("---> Privilege not found <---");
         return false;
     }
 

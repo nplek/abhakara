@@ -70,6 +70,9 @@ public class DbInitializer implements CommandLineRunner {
         Privilege prv21 = Privilege.builder().name("FOO_READ_PRIVILEGE").build();
         Privilege prv22 = Privilege.builder().name("FOO_WRITE_PRIVILEGE").build();
         Privilege prv23 = Privilege.builder().name("FOO_DELETE_PRIVILEGE").build();
+        Privilege prv31 = Privilege.builder().name("USER_READ_PRIVILEGE").build();
+        Privilege prv32 = Privilege.builder().name("USER_WRITE_PRIVILEGE").build();
+        Privilege prv33 = Privilege.builder().name("USER_DELETE_PRIVILEGE").build();
         
         this.privilegeRepository.save(prv1);
         this.privilegeRepository.save(prv2);
@@ -77,11 +80,18 @@ public class DbInitializer implements CommandLineRunner {
         this.privilegeRepository.save(prv21);
         this.privilegeRepository.save(prv22);
         this.privilegeRepository.save(prv23);
+        this.privilegeRepository.save(prv31);
+        this.privilegeRepository.save(prv32);
+        this.privilegeRepository.save(prv33);
 
         Collection<Privilege> prvList1 = new ArrayList<Privilege>();
         prvList1.add(prv1);
         prvList1.add(prv2);
         prvList1.add(prv3);
+        prvList1.add(prv21);
+        prvList1.add(prv22);
+        prvList1.add(prv23);
+        prvList1.add(prv31);
 
         Collection<Privilege> prvList2 = new ArrayList<Privilege>();
         prvList2.add(prv1);

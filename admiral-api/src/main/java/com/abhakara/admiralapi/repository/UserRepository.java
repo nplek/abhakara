@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface UserRepository extends PagingAndSortingRepository<ABKUser, Integer> {
+public interface UserRepository extends PagingAndSortingRepository<ABKUser, Long> {
     @Query(value ="SELECT t.* FROM users t where t.email LIKE lower(CONCAT('%', :email, '%'))", nativeQuery = true)
     List<ABKUser> findByEmail(@Param("email") String email);
 

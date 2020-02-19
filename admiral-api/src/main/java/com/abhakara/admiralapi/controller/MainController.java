@@ -21,13 +21,13 @@ import lombok.extern.java.Log;
 public class MainController {
      
     //@PostAuthorize("hasPermission(returnObject, 'read')")
-    //@PostAuthorize("hasAuthority('READ_PRIVILEGE')")
-    
+    //@PreAuthorize("hasPermission(#id, 'FOO', 'read')")
+    @PreAuthorize("hasPermission(#id,'foo', 'read')")
     @GetMapping("/foos/{id}")
     @ResponseBody
     public ABKUser findById(@PathVariable long id) {
         log.info("Foo");
-        System.out.println("MainController->foos->{id}");
+        System.out.println("MainController->foos->id(" + id + ")");
         ABKUser urs = ABKUser.builder().name("Test").email("email@email.com")
             .enabled(true)
             .locked(false)

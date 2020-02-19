@@ -44,7 +44,7 @@ public class ABKUser implements Serializable {
 
     @JsonProperty("id")
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     @JsonProperty("name")
     @NotNull(message = "{user.name.notNull}")

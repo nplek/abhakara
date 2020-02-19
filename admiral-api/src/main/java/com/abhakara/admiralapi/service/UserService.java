@@ -26,7 +26,7 @@ public class UserService {
     private UserRepository userRepository;
     
     //@Cacheable(value = "user", key = "#id", unless = "#result==null")
-    public Optional<ABKUser> getUserById(int id) {
+    public Optional<ABKUser> getUserById(Long id) {
         log.info("UserService getUserById: " + id);
         return userRepository.findById(id);
     }
