@@ -1,7 +1,6 @@
 package com.abhakara.admiralapi.config;
 
 import javax.sql.DataSource;
-import com.abhakara.admiralapi.config.CustomPermissionEvaluator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +19,7 @@ import org.springframework.security.web.access.expression.DefaultWebSecurityExpr
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
-    
+
     @Autowired
     private DataSource dataSource;
 
@@ -28,11 +27,16 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
             auth.jdbcAuthentication()
             .dataSource(dataSource)
-            .usersByUsernameQuery("select email,password,enabled "
+            .usersByUsernameQuery("select username,password,enabled "
                 + "from users "
-                + "where email = ?")
+                + "where username = ?")
             .passwordEncoder(passwordEncoder())
-            .authoritiesByUsernameQuery("select u.email, p.name from users u left join users_roles ur on ur.user_id = u.id left join roles r on ur.role_id = r.id left join roles_privileges rp on r.id = rp.role_id left join privileges p on rp.privilege_id = p.id where u.email = ? group by u.email, p.name");
+            .authoritiesByUsernameQuery("select u.username, p.name from users u "
+                + "left join users_roles ur on ur.user_id = u.id "
+                + "left join roles r on ur.role_id = r.id "
+                + "left join roles_privileges rp on r.id = rp.role_id "
+                + "left join privileges p on rp.privilege_id = p.id "
+                + "where u.username = ? group by u.username, p.name");
             //.authoritiesByUsernameQuery("select u.email, r.name from users u left join users_roles ur on ur.user_id = u.id left join roles r on ur.role_id = r.id where u.email = ?");
     }
 

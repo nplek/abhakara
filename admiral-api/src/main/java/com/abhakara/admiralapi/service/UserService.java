@@ -51,7 +51,7 @@ public class UserService {
 
 	@Caching(evict = { @CacheEvict(value = "userPage", allEntries = true )})
 	@CachePut(value = "user", key = "#id")
-	public Optional<ABKUser> updateUser(int id, ABKUser user) {
+	public Optional<ABKUser> updateUser(long id, ABKUser user) {
 		log.info("Update user :" + id);
 		Optional<ABKUser> userOpt = userRepository.findById(id);
         if(!userOpt.isPresent()) {
@@ -62,7 +62,7 @@ public class UserService {
 	}
 
 	@Caching(evict = { @CacheEvict(value = "userPage", allEntries = true ), @CacheEvict(value = "user", key = "#id")})
-	public boolean deleteUser(int id) {
+	public boolean deleteUser(long id) {
         log.info("Delete user id: " + id);
 		try {
             userRepository.deleteById(id);

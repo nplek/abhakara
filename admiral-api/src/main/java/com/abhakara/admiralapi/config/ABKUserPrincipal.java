@@ -1,14 +1,18 @@
-package com.abhakara.admiralapi.entity;
+package com.abhakara.admiralapi.config;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.abhakara.admiralapi.entity.ABKUser;
+import com.abhakara.admiralapi.entity.Privilege;
+import com.abhakara.admiralapi.entity.Role;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public class UserPrincipal implements UserDetails {
+public class ABKUserPrincipal implements UserDetails {
 
     /**
      *
@@ -16,7 +20,7 @@ public class UserPrincipal implements UserDetails {
     private static final long serialVersionUID = -2603085387405809563L;
     private ABKUser user;
 
-    public UserPrincipal(ABKUser user) {
+    public ABKUserPrincipal(ABKUser user) {
         this.user = user;
     }
 
@@ -25,7 +29,6 @@ public class UserPrincipal implements UserDetails {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         for (Role role: user.getRoles()) {
             for (Privilege privilege: role.getPrivileges()) {
-                System.out.println("----" + privilege.getName() + "----");
 				authorities.add(new SimpleGrantedAuthority(privilege.getName()));
             }
         }
@@ -39,7 +42,7 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getName();
+        return user.getUsername();
     }
 
     @Override
@@ -60,6 +63,10 @@ public class UserPrincipal implements UserDetails {
     @Override
     public boolean isEnabled() {
         return user.isEnabled();
+    }
+
+    public ABKUser getUser() {
+        return this.user;
     }
 
 }

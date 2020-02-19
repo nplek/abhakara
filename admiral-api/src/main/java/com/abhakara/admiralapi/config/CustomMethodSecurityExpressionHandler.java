@@ -16,8 +16,8 @@ extends DefaultMethodSecurityExpressionHandler {
   @Override
   protected MethodSecurityExpressionOperations createSecurityExpressionRoot(
     Authentication authentication, MethodInvocation invocation) {
-      CustomMethodSecurityExpressionRoot root = 
-        new CustomMethodSecurityExpressionRoot(authentication);
+      //CustomMethodSecurityExpressionRoot root = new CustomMethodSecurityExpressionRoot(authentication);
+      final ABKSecurityExpressionRoot root = new ABKSecurityExpressionRoot(authentication);
       root.setPermissionEvaluator(getPermissionEvaluator());
       root.setTrustResolver(this.trustResolver);
       root.setRoleHierarchy(getRoleHierarchy());

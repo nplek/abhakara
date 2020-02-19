@@ -118,13 +118,13 @@ public class DbInitializer implements CommandLineRunner {
         Collection<Role> roleList2 = new ArrayList<Role>();
         roleList2.add(role2);
 
-        ABKUser usr1 = ABKUser.builder().name("admin").email("admin@email.com")
+        ABKUser usr1 = ABKUser.builder().name("admin").username("admin@email.com")
             .password("$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqRzgVymGe07xd00DMxs.AQubh4a")
             .roles(roleList1).enabled(true).locked(false).tokenExpired(true).build();
 
         this.userRepository.save(usr1);
 
-        ABKUser usr2 = ABKUser.builder().name("user").email("user@email.com")
+        ABKUser usr2 = ABKUser.builder().name("user").username("user@email.com")
             .password("$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqRzgVymGe07xd00DMxs.AQubh4a")
             .roles(roleList2).enabled(true).locked(false).tokenExpired(true).build();
 

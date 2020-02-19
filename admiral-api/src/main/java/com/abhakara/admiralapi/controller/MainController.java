@@ -3,7 +3,7 @@ package com.abhakara.admiralapi.controller;
 import com.abhakara.admiralapi.entity.ABKUser;
 import com.abhakara.admiralapi.entity.Foo;
 
-import org.springframework.security.access.prepost.PostAuthorize;
+//import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,14 +28,26 @@ public class MainController {
     public ABKUser findById(@PathVariable long id) {
         log.info("Foo");
         System.out.println("MainController->foos->id(" + id + ")");
-        ABKUser urs = ABKUser.builder().name("Test").email("email@email.com")
+        ABKUser urs = ABKUser.builder().name("Test").username("email@email.com")
             .enabled(true)
             .locked(false)
             .tokenExpired(false)
             .build();
         return urs;
-        //Foo foo = new Foo("Test");
-        //return foo;
+    }
+
+    @PreAuthorize("isMember(#org)")
+    @GetMapping("/foos/{org}/{id}")
+    @ResponseBody
+    public ABKUser findByIdOrgId(@PathVariable long id, @PathVariable long org) {
+        log.info("Foo");
+        System.out.println("MainController->foos->id(" + id + ")->org(" + org + ")");
+        ABKUser urs = ABKUser.builder().name("Test").username("test@email.com")
+            .enabled(true)
+            .locked(false)
+            .tokenExpired(false)
+            .build();
+        return urs;
     }
  
     @PreAuthorize("hasPermission(#foo, 'write')")

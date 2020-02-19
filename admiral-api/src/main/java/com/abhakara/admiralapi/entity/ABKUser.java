@@ -33,7 +33,7 @@ import lombok.ToString;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(of={"email"})
+@ToString(of={"username"})
 @Table(name="users")
 public class ABKUser implements Serializable {
     
@@ -52,19 +52,17 @@ public class ABKUser implements Serializable {
     @Column(length = 100, nullable = false)
     private String name;
 
-    //@JsonProperty(access = Access.WRITE_ONLY)
-    //@JsonProperty(access = Access.WRITE_ONLY, value = "password")
     @Column(length = 100, nullable = false)
     @NotNull(message = "{user.password.notNull}")
     @Size(min=5, max=100, message = "{user.password.size}")
     private String password;
     
-    @JsonProperty("email")
-    @NotNull(message = "{user.email.notNull}")
-    @Email(message = "{user.email.format")
-    @Size(max=50, message = "{user.email.size}")
+    @JsonProperty("username")
+    @NotNull(message = "{user.username.notNull}")
+    @Email(message = "{user.username.format")
+    @Size(max=50, message = "{user.username.size}")
     @Column(columnDefinition = "varchar(50) NOT NULL", unique = true)
-    private String email;
+    private String username;
     
     @JsonProperty("enabled")
     @Column(columnDefinition = "boolean default true")
